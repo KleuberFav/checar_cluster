@@ -37,7 +37,7 @@ docker ps
 
 ```
 ### Acessar o container worker (troque para o nome do container worker)
-docker exec -it <container-worker> bash
+docker exec -it <nome_do_container> bash
 ```
 
 ```
