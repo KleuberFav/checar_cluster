@@ -5,10 +5,8 @@ Este DAG verifica se há clusters EMR ativos na AWS a cada hora e envia um alert
 # Índice
 - [Requisitos](#requisitos)
 - [Configuração](#configuração)
-- [Metadados](#metadados)
-- [Ambiente AWS](#ambiente-aws)
-- [Airflow](#gerenciamento-de-processos-com-airflow)
-- [Instalação](#instalação-do-ambiente)
+- [Descrição do Fluxo](#descrição-do-fluxo)
+- [Execução do Projeto](#execução-do-projeto)
 - [Autor](#autor)
 
 # Requisitos
@@ -101,7 +99,7 @@ Lembrando que essas configurações são para o gmail, [aqui tem um tutorial de 
 3. **E-mail de Alerta**:
    O e-mail de alerta (definido em `EMAIL`) receberá a notificação sobre a existência de clusters EMR ativos.
 
-## Descrição do Fluxo
+# Descrição do Fluxo
 
 - **verificar_clusters_emr**: Função principal que verifica os clusters EMR em estados de "STARTING", "BOOTSTRAPPING", "RUNNING" e "WAITING".
   - Se encontrar clusters ativos, a função envia as informações para o XCom e direciona o fluxo para a tarefa de envio de e-mail.
@@ -112,10 +110,6 @@ Lembrando que essas configurações são para o gmail, [aqui tem um tutorial de 
 - **DummyOperator**: Utilizado quando não há clusters EMR ativos.
 
 - **EmailOperator**: Envia um e-mail contendo a lista de clusters ativos, caso existam.
-
-## Execução
-
-### Programação
 
 A DAG é executada a cada hora (configuração padrão do parâmetro `schedule_interval`).
 
@@ -130,6 +124,8 @@ A DAG é executada a cada hora (configuração padrão do parâmetro `schedule_i
 3. **`no_cluster_task`**: Caso não haja clusters ativos, a DAG não faz nada além de registrar o resultado.
 
 A tarefa branch_task dirige o fluxo para a próxima tarefa, dependendo do resultado.
+
+<img src=https://github.com/KleuberFav/checar_cluster/blob/main/artefatos/fluxo.png/>
 
 ### Exemplo de Saída do E-mail
 
@@ -146,6 +142,21 @@ Corpo:
 
 Caso não haja clusters ativos, o fluxo termina sem gerar e-mail.
 
-#### Notas Finais
+<img src=https://github.com/KleuberFav/checar_cluster/blob/main/artefatos/email.png/>
+
+# Execução do Projeto
+
+Para rodar o projeto, siga os passos abaixo:
+
+1. **Construa os contêineres**: 
+   ```bash
+   docker-compose up --build
+
+### Notas Finais
 
 Certifique-se de que as credenciais da AWS e do e-mail estão corretamente configuradas no arquivo aws.cfg. O e-mail de alerta será enviado para o endereço configurado, com informações sobre os clusters EMR ativos.
+
+# Autor
+**Kleuber Favacho** - *Engenheiro de Dados, Analista de Dados e Estatístico* 
+- [Github](https://github.com/KleuberFav)
+- [Linkedin](https://www.linkedin.com/in/kleuber-favacho/)
