@@ -49,7 +49,7 @@ Também será preciso configurar as credenciais para envio de email
 
 ```
 ### Editar o arquivo airflow.cfg
-docker exec -it <nome_do_container> bash
+nano /opt/airflow/airflow.cfg
 ```
 
 ```
